@@ -22,8 +22,8 @@ let package = Package(
             name: "ANSITerminal",
             dependencies: [],
             path: "Sources"),
-        .testTarget(
-            name: "ANSITerminalTests",
-            dependencies: ["ANSITerminal"]),
+        // .testTarget(
+        //     name: "ANSITerminalTests",
+        //     dependencies: ["ANSITerminal"]),
     ]
 )

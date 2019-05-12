@@ -19,12 +19,12 @@ public extension NonPrintableChar {
 }
 
 // check for non-printable character
-public func isNonPrintable(char: Character) -> Bool {
+@inlinable public func isNonPrintable(char: Character) -> Bool {
   return char < " " || char == "\u{7F}"
 }
 
 // check for non-printable ansi code
-public func isNonPrintable(code: Int) -> Bool {
+@inlinable public func isNonPrintable(code: Int) -> Bool {
   return code < 32 || code == 127
 }
 
