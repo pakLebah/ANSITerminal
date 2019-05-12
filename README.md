@@ -131,6 +131,6 @@ Here are the available text styles on ANSI terminal:
 4. `writeln(_:... suspend:)` to directly write text with additional `newline` into standard output.
 5. `ask(_:) → String` is a shortcut to ask for a question from user.
 
-I consider those as the most useful and used functions in common console applications. You should look into the source code files to see the rest of available functions. I will update the documentation to be more complete. I also will include some demo programs.
+I consider those as the most useful and used functions in common console applications. You should look into the source code files to see the rest of available functions. I will update the documentation to be more complete. A simple demo program is available [here](https://github.com/pakLebah/ansiDemo).
 
 If you have any issues using this library, feel free to submit an issue. Thank you.
