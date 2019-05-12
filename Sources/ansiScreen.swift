@@ -1,6 +1,19 @@
 public private(set) var isReplacingMode = false
 public private(set) var isCursorVisible = true
 
+// Reference: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+
+public enum CursorStyle: UInt8 {
+  case block = 1
+  case line  = 3
+  case bar   = 5
+}
+
+public func setCursorStyle(_ style: CursorStyle, blinking: Bool = true) {
+  if blinking { write(CSI+"\(style.rawValue) q") }
+    else { write(CSI+"\(style.rawValue + 1) q") }
+}
+
 public func storeCursorPosition(isANSI: Bool = false) {
   if isANSI { write(CSI,"s") } else { write(ESC,"7") }
 }
@@ -47,6 +60,18 @@ public func moveRight(_ col: Int = 1) {
 
 public func moveLeft(_ col: Int = 1) {
   write(CSI,"\(col)D")
+}
+
+public func moveLineDown(_ row: Int = 1) {
+  write(CSI,"\(row)E")
+}
+
+public func moveLineUp(_ row: Int = 1) {
+  write(CSI,"\(row)F")
+}
+
+public func moveToColumn(_ col: Int) {
+  write(CSI,"\(col)G")
 }
 
 public func moveTo(_ row: Int, _ col: Int) {
