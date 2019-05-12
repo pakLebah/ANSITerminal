@@ -1,0 +1,31 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "swift: Build Debug",
+      "type" : "shell",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "swift build",
+      "presentation": {
+        "focus": true,
+        "reveal": "always",
+      },
+      "problemMatcher": [],
+    },
+    {
+      "label": "swift: Build Release",
+      "type" : "shell",
+      "command": "swift build -c release",
+      "presentation": {
+        "focus": true,
+        "reveal": "always",
+      },
+      "problemMatcher": [],
+    }
+  ]
+}
