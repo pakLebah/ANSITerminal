@@ -1,6 +1,6 @@
 # ANSITerminal
 
-**ANSITerminal** is a Swift library to access ANSI Terminal and (almost) all of its features. It's including text coloring, text styling, cursor and screen handling, and direct keyboard input. **ANSITerminal** is based on standard ANSI features which is commonly supported on Unix terminals especially such as xterm and VT-100.
+**ANSITerminal** is an open source Swift library to access ANSI Terminal and (almost) all of its features. It's including text coloring, text styling, cursor and screen handling, and direct keyboard input. **ANSITerminal** is based on standard ANSI features which is commonly supported on Unix terminals especially such as xterm and VT-100 compatible.
 
 ## Usage
 
@@ -29,15 +29,15 @@ let package = Package(
 )
 ```
 
-You just need to put a package dependency pointed to ANSITerminal's GitHub repo and and `"ANSITerminal"` item into target dependency. Then you should be able to put `import ANSITerminal` in you Swift program and enjoy fun ANSI terminal features. That's all.
+You just need to add a package dependency pointed to [ANSITerminal's GitHub repo](https://github.com/pakLebah/ANSITerminal) and `"ANSITerminal"` item into target dependency. Then you should be able to put `import ANSITerminal` in you Swift program and enjoy ANSI terminal features. That's all.
 
-If you found a missing ANSI feature that you need, you could simply call `swift package edit ANSITerminal`. SPM will create a local copy of ANSITerminal for you, so you could add any missing features by yourself. Everytime you build the project, Swift will refers to the local copy instead of the original source. Once you done with it, don't forget to send a pull request to me. I'll be happy to accept any useful contributions to ANSITerminal from anyone.
+If you find a missing ANSI feature that you need, you could simply call `swift package edit ANSITerminal`. SPM will create a local copy of ANSITerminal for you, so you could add any missing features by yourself. Everytime you build the project, Swift will refers to the local copy instead of the original source. Once you done with it, don't forget to send a pull request to me. I'll be happy to accept any useful contributions to ANSITerminal from anyone.
 
 ## Features
 
 ### Text Coloring
 
-ANSI color is available as property to `String` type through extension. To color a text, simply follow the text with the color's name. For example, `'text'.blue` will produce <span style="color: blue">text</span> (blue text) on the screen. To set text background color, simply follow the text with the color's name but with `on` prefix. For example, `'text'.onCyan` will produce <span style="background: cyan">text</span> (black text over cyan background) on the screen. As coloring is available as property to `String`, you may combine them. For example, `'text'.blue.onCyan` will produce <span style="color: blue; background: cyan">text</span> (blue text over cyan background) on the screen. It's so easy!
+ANSI color is available as property to `String` type through extension. To color a text, simply follow the text with the color's name. For example, `'text'.blue` will produce <span style="color: blue">text</span> (blue text)* on the screen. To set text background color, simply follow the text with the color's name but with `on` prefix. For example, `'text'.onCyan` will produce <span style="background: cyan">text</span> (black text over cyan background) on the screen. As coloring is available as property to `String`, you may combine them. For example, `'text'.blue.onCyan` will produce <span style="color: blue; background: cyan">text</span> (blue text over cyan background) on the screen. It's so easy!
 
 But that's only available for 16 system colors. Most ANSI terminals also support 256 colors. To use 256 colors palette, use `foreColor(_:)` type extension method to set text color and `backColor(_:)` to set text background color. You may also want to use `colors(_: _:)` with text color and background color respectively. Those type methods works just like the type properties mentioned before. For example, `'text'.foreColor(196)` will produce <span style="color: #ff0000">text</span> (red text) on the screen.
 
@@ -161,3 +161,6 @@ Here are the available text styles on ANSI terminal:
 I consider those as the most useful and used functions in common console applications. You should look into the source code files to see the rest of available functions. I will update the documentation to be more complete. A simple demo program is available [here](https://github.com/pakLebah/ansiDemo).
 
 If you have any issues using this library, feel free to submit an issue. Thank you.
+
+\________    
+\* GitHub's Markdown doesn't support custom text color via CSS.
