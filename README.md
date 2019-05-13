@@ -6,6 +6,33 @@
 
 Using **ANSITerminal** library is as easy as putting `import ANSITerminal` in your Swift program then you will be able to use any functions or extensions provided by this library. The main advantage of using this library instead of something like [ncurses](https://www.gnu.org/software/ncurses/) is it doesn't take over the whole screen. You may use this library to complement your common console program.
 
+#### Using Swift Package Manager
+
+**ANSITerminal** only supports library distribution through [Swift Package Manager](https://swift.org/package-manager). To use ANSITerminal, simply add a dependency into your project's `package.swift` file. Here's `package.swift` example from [ansiDemo](https://github.com/pakLebah/ansiDemo) project.
+
+```swift
+// swift-tools-version:5.0
+
+import PackageDescription
+
+let package = Package(
+    name: "ansiDemo",
+    dependencies: [
+        .package(url: "https://github.com/pakLebah/ANSITerminal", from: "0.0.1"),
+    ],
+    targets: [
+        .target(
+            name: "ansiDemo",
+            dependencies: ["ANSITerminal"],
+            path: "Sources"),
+    ]
+)
+```
+
+You just need to put a package dependency pointed to ANSITerminal's GitHub repo and and `"ANSITerminal"` item into target dependency. Then you should be able to put `import ANSITerminal` in you Swift program and enjoy fun ANSI terminal features. That's all.
+
+If you found a missing ANSI feature that you need, you could simply call `swift package edit ANSITerminal`. SPM will create a local copy of ANSITerminal for you, so you could add any missing features by yourself. Everytime you build the project, Swift will refers to the local copy instead of the original source. Once you done with it, don't forget to send a pull request to me. I'll be happy to accept any useful contributions to ANSITerminal from anyone.
+
 ## Features
 
 ### Text Coloring
