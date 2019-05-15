@@ -15,7 +15,7 @@ internal private(set) var defaultTerminal = termios()
 public   private(set) var isNonBlockingMode = false
 
 @inlinable public func delay(_ ms: Int) {
-  usleep(UInt32(ms))
+  usleep(UInt32(ms * 1000))  // convert to milliseconds
 }
 
 @inlinable public func unicode(_ code: Int) -> Unicode.Scalar {

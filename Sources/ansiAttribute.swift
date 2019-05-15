@@ -59,6 +59,9 @@ public enum ANSIAttr: UInt8 {
   case onWhite        = 107
 }
 
+internal private(set) var isOpenedColor = false
+internal private(set) var isOpenedStyle = false
+
 public extension String {
   private func style(_ aStyle: ANSIAttr) -> String {
     guard !self.isEmpty else { return self }
@@ -66,7 +69,12 @@ public extension String {
     if aStyle == .normal {
       return CSI+"\(aStyle.rawValue)m" + self
     } else {
-      return CSI+"\(aStyle.rawValue)m" + self + CSI+"\(ANSIAttr.normal.rawValue)m"
+      if isOpenedStyle {
+        return CSI+"\(aStyle.rawValue)m" + self
+      }
+      else {
+        return CSI+"\(aStyle.rawValue)m" + self + CSI+"\(ANSIAttr.normal.rawValue)m"
+      }
     }
   }
 
@@ -85,8 +93,13 @@ public extension String {
   private func color(_ aColor: ANSIAttr) -> String {
     guard !self.isEmpty else { return self }
 
-    return CSI+"\(aColor.rawValue)m" + self +
-           CSI+"\(ANSIAttr.`default`.rawValue);\(ANSIAttr.onDefault.rawValue)m"
+    if isOpenedColor {
+      return CSI+"\(aColor.rawValue)m" + self
+    }
+    else {
+      return CSI+"\(aColor.rawValue)m" + self +
+             CSI+"\(ANSIAttr.`default`.rawValue);\(ANSIAttr.onDefault.rawValue)m"
+    }
   }
 
   /* ––––– text coloring (16) ––––– */
@@ -124,6 +137,24 @@ public extension String {
   var onLightMagenta: String { return color(.onLightMagenta) }
   var onLightCyan   : String { return color(.onLightCyan) }
   var onWhite       : String { return color(.onWhite) }
+  // for more expressive foreground color naming
+  var asBlack       : String { return color(.black) }
+  var asRed         : String { return color(.red) }
+  var asGreen       : String { return color(.green) }
+  var asBrown       : String { return color(.brown) }
+  var asBlue        : String { return color(.blue) }
+  var asMagenta     : String { return color(.magenta) }
+  var asCyan        : String { return color(.cyan) }
+  var asGray        : String { return color(.gray) }
+  var asDefault     : String { return color(.`default`) }
+  var asDarkGray    : String { return color(.darkGray) }
+  var asLightRed    : String { return color(.lightRed) }
+  var asLightGreen  : String { return color(.lightGreen) }
+  var asYellow      : String { return color(.yellow) }
+  var asLightBlue   : String { return color(.lightBlue) }
+  var asLightMagenta: String { return color(.lightMagenta) }
+  var asLightCyan   : String { return color(.lightCyan) }
+  var asWhite       : String { return color(.white) }
 
   /* ––––– text coloring (256) ––––– */
   // Look at https://jonasjacek.github.io/colors/ for list of 256 xterm colors
@@ -131,29 +162,54 @@ public extension String {
   func foreColor(_ aColor: UInt8) -> String {
     guard !self.isEmpty && (1...255 ~= aColor) else { return self }
 
-    return CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(aColor)m" + self +
-           CSI+"\(ANSIAttr.`default`.rawValue)m"
+    if isOpenedColor {
+      return CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(aColor)m" + self
+    }
+    else {
+      return CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(aColor)m" + self +
+             CSI+"\(ANSIAttr.`default`.rawValue)m"
+    }
   }
+
+  func withForeColor(_ aColor: UInt8) -> String { return foreColor(aColor) }
 
   func backColor(_ aColor: UInt8) -> String {
     guard !self.isEmpty && (1...255 ~= aColor) else { return self }
 
-    return CSI+"\(ANSIAttr.back256Color.rawValue);5;\(aColor)m" + self +
-           CSI+"\(ANSIAttr.onDefault.rawValue)m"
+    if isOpenedColor {
+      return CSI+"\(ANSIAttr.back256Color.rawValue);5;\(aColor)m" + self
+    }
+    else {
+      return CSI+"\(ANSIAttr.back256Color.rawValue);5;\(aColor)m" + self +
+             CSI+"\(ANSIAttr.onDefault.rawValue)m"
+    }
   }
+
+  func withBackColor(_ aColor: UInt8) -> String { return backColor(aColor) }
 
   func colors(_ fore: UInt8, _ back: UInt8) -> String {
     guard !self.isEmpty && (1...255 ~= fore) && (1...255 ~= back) else { return self }
 
-    return CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(fore)m" +
-           CSI+"\(ANSIAttr.back256Color.rawValue);5;\(back)m" + self +
-           CSI+"\(ANSIAttr.`default`.rawValue);\(ANSIAttr.onDefault.rawValue)m"
+    if isOpenedColor {
+      return CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(fore)m" +
+             CSI+"\(ANSIAttr.back256Color.rawValue);5;\(back)m" + self
+    }
+    else {
+      return CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(fore)m" +
+             CSI+"\(ANSIAttr.back256Color.rawValue);5;\(back)m" + self +
+             CSI+"\(ANSIAttr.`default`.rawValue);\(ANSIAttr.onDefault.rawValue)m"
+    }
   }
+
+  func withColors(_ fore: UInt8, _ back: UInt8) -> String { return colors(fore, back) }
 }
+
+/* ––––––––––– PUBLIC FUNCTIONS –––––––––– */
 
 public func setStyle(_ style: ANSIAttr = .normal) {
   guard (1...9 ~= style.rawValue || 21...29 ~= style.rawValue) else { return }
   write(CSI+"\(style.rawValue)m")
+  isOpenedStyle = true
 }
 
 public func setColor(fore: ANSIAttr = .`default`, back: ANSIAttr = .onDefault) {
@@ -167,15 +223,36 @@ public func setColor(fore: ANSIAttr = .`default`, back: ANSIAttr = .onDefault) {
      (back.rawValue >= 100 && back.rawValue <= 107) ||
      (back.rawValue == ANSIAttr.onDefault.rawValue) {
        write(CSI+"\(back.rawValue)m") }
+  isOpenedColor = true
 }
 
 public func setColors(_ fore: UInt8, on back: UInt8) {
   guard (1...255 ~= fore) && (1...255 ~= back) else { return }
   write(CSI+"\(ANSIAttr.fore256Color.rawValue);5;\(fore)m" +
         CSI+"\(ANSIAttr.back256Color.rawValue);5;\(back)m")
+  isOpenedColor = true
 }
 
 public func setDefault(color: Bool = true, style: Bool = false) {
-  if color { write(CSI+"\(ANSIAttr.`default`.rawValue);\(ANSIAttr.onDefault.rawValue)m") }
-  if style { write(CSI+"\(ANSIAttr.normal.rawValue)m") }
+  if color {
+    write(CSI+"\(ANSIAttr.`default`.rawValue);\(ANSIAttr.onDefault.rawValue)m")
+    isOpenedColor = false
+  }
+  if style {
+    write(CSI+"\(ANSIAttr.normal.rawValue)m")
+    isOpenedStyle = false
+  }
+}
+
+// remove all ANSI attributes from a string that has ANSI style/color
+public func stripAttributes(from text: String) -> String {
+  guard !text.isEmpty else { return text }
+
+  var txt = text.split(separator: NonPrintableChar.escape.char())
+  for (i, sub) in txt.enumerated() {
+    if let end = sub.firstIndex(of: "m") {
+      txt[i] = sub[sub.index(after: end)...]
+    }
+  }
+  return txt.joined()
 }

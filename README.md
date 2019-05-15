@@ -37,13 +37,13 @@ If you find a missing ANSI feature that you need, you could simply call `swift p
 
 ### Text Coloring
 
-ANSI color is available as property to `String` type through extension. To color a text, simply follow the text with the color's name. For example, `'text'.blue` will produce <span style="color: blue">text</span> (blue text)* on the screen. To set text background color, simply follow the text with the color's name but with `on` prefix. For example, `'text'.onCyan` will produce <span style="background: cyan">text</span> (black text over cyan background) on the screen. As coloring is available as property to `String`, you may combine them. For example, `'text'.blue.onCyan` will produce <span style="color: blue; background: cyan">text</span> (blue text over cyan background) on the screen. It's so easy!
+ANSI color is available as property to `String` type through extension. To color a text, simply follow the text with the color's name. For example, `'text'.blue` will produce <span style="color: blue">text</span> (blue text)* on the screen. To set text background color, simply follow the text with the color's name but with `on` prefix. For example, `'text'.onCyan` will produce <span style="background: cyan">text</span> (black text over cyan background) on the screen. As coloring is available as property to `String`, you may combine them. For example, `'text'.blue.onCyan` will produce <span style="color: blue; background: cyan">text</span> (blue text over cyan background) on the screen. In case you prefer more expressive property name, you may want to use `as` prefix for text color. So, instead of `'text'.blue` you could use `'text'.asBlue`. It's so easy!
 
-But that's only available for 16 system colors. Most ANSI terminals also support 256 colors. To use 256 colors palette, use `foreColor(_:)` type extension method to set text color and `backColor(_:)` to set text background color. You may also want to use `colors(_: _:)` with text color and background color respectively. Those type methods works just like the type properties mentioned before. For example, `'text'.foreColor(196)` will produce <span style="color: #ff0000">text</span> (red text) on the screen.
+But the color name property is only available for the 16 system colors. Most ANSI terminals also support 256 colors. To use 256 colors palette, use `foreColor(_:)` type extension method to set text color and `backColor(_:)` to set text background color. You may also want to use `colors(_: _:)` that combines text color and background color respectively. Those type methods work just like the type properties mentioned before. Since 256 is too many to define correct and consistent name for each of them, you have to use the color index for 256 color palette. For example, `'text'.foreColor(196)` will produce <span style="color: #ff0000">text</span> (red text) on the screen. As in 16 colors properties, there are also more expressive method names for 256 colors methods, using `with` prefix. So, instead of `'text'.foreColor(196)` you could also use `'text'.withForeColor(196)`.
 
-The `String` extension mechanism sets color only for the text. After the text, the color is set back to the default, both for text and background color. If you want more control over the mechanism, you could use `setColor(fore: back:)` function for 16 colors system and `setColors(_: _:)` function for 256 colors palette. Those functions do not revert color back to the default, so you must not forget to call `setDefault(color: style:)` to turn ANSI attributes (either color or style) back to the default. Otherwise, your terminal color will set to the last color settings.
+The `String` extension mechanism sets color only for the text. After the text, the color is set back to the default, both for text and background color. If you want more control over the mechanism, you could use `setColor(fore: back:)` function for 16 colors system and `setColors(_: _:)` function for 256 colors palette. Those functions do not revert color back to the default, so you must not forget to call `setDefault(color: style:)` to turn ANSI attributes (either color or style) back to the default. Otherwise, your terminal color will stay with the last color and style settings.
 
-Below are the default color palette for ANSI terminal. You may need to look it up if you want to use 256 colors palette.
+Below are the default color palettes for ANSI terminal. You may need to look it up if you want to get the color number of 256 colors palette.
 
 #### ANSI Color Palette
 
@@ -129,7 +129,7 @@ Here are the available text styles on ANSI terminal:
 #### Cursor Related Functions
 
 1. `storeCursorPosition()` to store current cursor position.
-2. `restoreCursorPosition()` to restore last saved cursor position.
+2. `restoreCursorPosition()` to restore last saved cursor position. Please note that this function sometimes has a side effect to also reset color and style to default on some terminals.
 3. `cursorOn()` to make cursor visible.
 4. `cursorOff()` to make cursor invisible (hidden).
 5. `moveTo(_: _:)` to position cursor to given `row` and `col[umn]` respectively.
@@ -141,7 +141,7 @@ Here are the available text styles on ANSI terminal:
 2. `clearLine()` to clear the entire line of current cursor position.
 3. `clearToEndOfLine()` to clear the line of current cursor position to the end of line.
 4. `scrollRegion(top: bottom:)` to set scrolling region of the screen.
-5. `readScreenSize() → (row: col:)` to get current screen size in `row` and `col[umn]`. Please note that this function is not supported on emulated terminal such as [VS Code](https://code.visualstudio.com/)'s integrated terminal or [repl.it](replit.com)'s web terminal.
+5. `readScreenSize() → (row: col:)` to get current screen size in `row` and `col[umn]`. Please note that this function is not supported on emulated terminal such as [VS Code](https://code.visualstudio.com/)'s integrated terminal or [repl.it](replit.com)'s web terminal.**
 
 ### Keyboard Input Handling
 
@@ -152,10 +152,10 @@ Here are the available text styles on ANSI terminal:
 
 ### Miscellaneous Functions
 
-1. `delay(_:)` to suspend program execution in microseconds.
+1. `delay(_:)` to suspend program execution in milliseconds.
 2. `clearBuffer(isOut: isIn:)` to clear standard input/output buffer.
-3. `write(_:... suspend:)` to directly write text into standard output with optional `suspend` delay.
-4. `writeln(_:... suspend:)` to directly write text with additional `newline` into standard output.
+3. `write(_:... suspend:)` to directly write a (bunch of) text into standard output with optional `suspend` delay, it also has `writeln(_:... suspend:)` if you need a `newline` after the (bunch of) text.
+4. `stripAttributes(from:) → String` to strip all colors and styles from a text to get the actual text, which could be useful to get the actual text's length *after* adding colors/styles.
 5. `ask(_:) → String` is a shortcut to ask for a question from user.
 
 I consider those as the most useful and used functions in common console applications. You should look into the source code files to see the rest of available functions. I will update the documentation to be more complete. A simple demo program is available [here](https://github.com/pakLebah/ansiDemo).
@@ -163,4 +163,5 @@ I consider those as the most useful and used functions in common console applica
 If you have any issues using this library, feel free to submit an issue. Thank you.
 
 \________    
-\* GitHub's Markdown doesn't support custom text color via CSS.
+\* GitHub's Markdown doesn't support custom text color via CSS.    
+\** XCode's integrated console doesn't support ANSI at all.
