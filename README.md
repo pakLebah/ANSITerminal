@@ -18,7 +18,7 @@ import PackageDescription
 let package = Package(
     name: "ansiDemo",
     dependencies: [
-        .package(url: "https://github.com/pakLebah/ANSITerminal", from: "0.0.1"),
+        .package(url: "https://github.com/pakLebah/ANSITerminal", from: "0.0.2"),
     ],
     targets: [
         .target(
@@ -29,7 +29,7 @@ let package = Package(
 )
 ```
 
-You just need to add a package dependency pointed to [ANSITerminal's GitHub repo](https://github.com/pakLebah/ANSITerminal) and `"ANSITerminal"` item into target dependency. Then you should be able to put `import ANSITerminal` in you Swift program and enjoy ANSI terminal features. That's all.
+You just need to add a package dependency pointed to [ANSITerminal's GitHub repo](https://github.com/pakLebah/ANSITerminal) and `"ANSITerminal"` item into target dependency. Then you should be able to put `import ANSITerminal` in your Swift program and enjoy ANSI terminal features. That's all.
 
 If you find a missing ANSI feature that you need, you could simply call `swift package edit ANSITerminal`. SPM will create a local copy of ANSITerminal for you, so you could add any missing features by yourself. Everytime you build the project, Swift will refers to the local copy instead of the original source. Once you done with it, don't forget to send a pull request to me. I'll be happy to accept any useful contributions to ANSITerminal from anyone.
 
