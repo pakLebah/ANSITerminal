@@ -11,6 +11,12 @@ public let DCS = ESC+"P"   // Device Control String
 public let CSI = ESC+"["   // Control Sequence Introducer
 public let OSC = ESC+"]"   // Operating System Command
 
+// some fancy characters, required appropriate font installed
+public let RPT = "\u{e0b0}"   // right pointing triangle
+public let LPT = "\u{e0b2}"   // left pointing triangle
+public let RPA = "\u{e0b1}"   // right pointing angle
+public let LPA = "\u{e0b3}"   // left pointing angle
+
 internal private(set) var defaultTerminal = termios()
 public   private(set) var isNonBlockingMode = false
 

@@ -212,6 +212,11 @@ public func setStyle(_ style: ANSIAttr = .normal) {
   isOpenedStyle = true
 }
 
+public func isStyle(_ style: UInt8) -> Bool {
+  return (style > 0 && style < 10) ||
+         (style > 20 && style < 30)
+}
+
 public func setColor(fore: ANSIAttr = .`default`, back: ANSIAttr = .onDefault) {
   // check for foreground color value
   if (fore.rawValue >= 30 && fore.rawValue <= 37) ||
@@ -242,6 +247,40 @@ public func setDefault(color: Bool = true, style: Bool = false) {
     write(CSI+"\(ANSIAttr.normal.rawValue)m")
     isOpenedStyle = false
   }
+}
+
+public func isForeColor(_ color: UInt8) -> Bool {
+  return (color >= 30 && color <= 37) ||
+         (color >= 90 && color <= 97)
+}
+
+public func isBackColor(_ color: UInt8) -> Bool {
+  return (color >= 40 && color <= 47) ||
+         (color >= 100 && color <= 107)
+}
+
+public func isColor(_ color: UInt8) -> Bool {
+  return isForeColor(color) || isBackColor(color)
+}
+
+// convert foreground color to background color
+public func foreToBack(_ color: ANSIAttr) -> ANSIAttr {
+  if (color.rawValue >= 30 && color.rawValue <= 37) ||
+     (color.rawValue >= 90 && color.rawValue <= 97) ||
+     (color.rawValue == ANSIAttr.onDefault.rawValue) {
+    return ANSIAttr(rawValue: color.rawValue+10)!
+  }
+  else { return color }
+}
+
+// convert background color to foreground color
+public func backToFore(_ color: ANSIAttr) -> ANSIAttr {
+  if (color.rawValue >=  40 && color.rawValue <=  47) ||
+     (color.rawValue >= 100 && color.rawValue <= 107) ||
+     (color.rawValue == ANSIAttr.onDefault.rawValue) {
+    return ANSIAttr(rawValue: color.rawValue-10)!
+  }
+  else { return color }
 }
 
 // remove all ANSI attributes from a string that has ANSI style/color
