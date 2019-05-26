@@ -2,6 +2,9 @@
 
 **ANSITerminal** is an open source Swift library to access ANSI Terminal and (almost) all of its features. It's including text coloring, text styling, cursor and screen handling, and direct keyboard input. **ANSITerminal** is based on standard ANSI features which is commonly supported on Unix terminals especially such as xterm and VT-100 compatible.
 
+> **UPDATE**:    
+> Latest version is v.0.0.3 at May, 26th 2019. There are a [simple demo](https://github.com/pakLebah/ansiDemo) and also a [simple game](https://github.com/pakLebah/ansiSlide) made using this library. Have fun! :)
+
 ## Usage
 
 Using **ANSITerminal** library is as easy as putting `import ANSITerminal` in your Swift program then you will be able to use any functions or extensions provided by this library. The main advantage of using this library instead of something like [ncurses](https://www.gnu.org/software/ncurses/) is it doesn't take over the whole screen. You may use this library to complement your common console program.
@@ -18,7 +21,7 @@ import PackageDescription
 let package = Package(
     name: "ansiDemo",
     dependencies: [
-        .package(url: "https://github.com/pakLebah/ANSITerminal", from: "0.0.2"),
+        .package(url: "https://github.com/pakLebah/ANSITerminal", from: "0.0.3"),
     ],
     targets: [
         .target(
@@ -158,7 +161,7 @@ Here are the available text styles on ANSI terminal:
 4. `stripAttributes(from:) → String` to strip all colors and styles from a text to get the actual text, which could be useful to get the actual text's length *after* adding colors/styles.
 5. `ask(_:) → String` is a shortcut to ask for a question from user.
 
-I consider those as the most useful and used functions in common console applications. You should look into the source code files to see the rest of available functions. I will update the documentation to be more complete. A simple demo program is available [here](https://github.com/pakLebah/ansiDemo).
+I consider those as the most useful and used functions in common console applications. You should look into the source code files to see the rest of available functions. I will update the documentation to be more complete. A simple demo program is available [here](https://github.com/pakLebah/ansiDemo). There is also a simple console game that I made using this library, it's a [slide game](https://github.com/pakLebah/ansiSlide).
 
 If you have any issues using this library, feel free to submit an issue. Thank you.
 
