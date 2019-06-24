@@ -287,6 +287,7 @@ public func backToFore(_ color: ANSIAttr) -> ANSIAttr {
 public func stripAttributes(from text: String) -> String {
   guard !text.isEmpty else { return text }
 
+  // ANSI attribute is always started with ESC and ended by `m`
   var txt = text.split(separator: NonPrintableChar.escape.char())
   for (i, sub) in txt.enumerated() {
     if let end = sub.firstIndex(of: "m") {

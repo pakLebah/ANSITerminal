@@ -130,6 +130,14 @@ public func writeln(suspend: Int = 0) {
   if suspend < 0 { clearBuffer() }
 }
 
+// shortcut to write text at a given position
+public func writeAt(_ row: Int, _ col: Int, _ text: String..., suspend: Int = 0) {
+  moveTo(row, col)
+  for txt in text { write(STDOUT_FILENO, txt, txt.utf8.count) }
+  if suspend > 0 { delay(suspend) }
+  if suspend < 0 { clearBuffer() }
+}
+
 public func ask(_ q: String, cleanUp: Bool = false) -> String {
   print(q, terminator: "")
   if cleanUp { clearBuffer() }
