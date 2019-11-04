@@ -144,7 +144,7 @@ Here are the available text styles on ANSI terminal:
 2. `clearLine()` to clear the entire line of current cursor position.
 3. `clearToEndOfLine()` to clear the line of current cursor position to the end of line.
 4. `scrollRegion(top: bottom:)` to set scrolling region of the screen.
-5. `readScreenSize() → (row: col:)` to get current screen size in `row` and `col[umn]`. Please note that this function is not supported on emulated terminal such as [VS Code](https://code.visualstudio.com/)'s integrated terminal or [repl.it](replit.com)'s web terminal.**
+5. `readScreenSize() → (row: col:)` to get current screen size in `row` and `col[umn]`. Please note that this function is not supported on emulated terminal such as [VS Code](https://code.visualstudio.com/)'s integrated terminal or [repl.it](https://replit.com)'s web terminal.**
 
 ### Keyboard Input Handling
 
