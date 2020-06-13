@@ -20,5 +20,7 @@ let package = Package(
         // .testTarget(
         //     name: "ANSITerminalTests",
         //     dependencies: ["ANSITerminal"]),
-    ]
+    ],
+    swiftLanguageVersions: [.v5],
+    platforms: [.macOS(.v10_14)],
 )

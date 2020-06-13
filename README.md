@@ -1,6 +1,6 @@
 # ANSITerminal
 
-**ANSITerminal** is an open source Swift library to access ANSI Terminal and (almost) all of its features. It's including text coloring, text styling, cursor and screen handling, and direct keyboard input. **ANSITerminal** is based on standard ANSI features which is commonly supported on Unix terminals especially such as xterm and VT-100 compatible.
+**ANSITerminal** is an open source Swift library to access ANSI Terminal and (almost) all of its features. It's including text coloring, text styling, cursor and screen handling, and direct keyboard input. **ANSITerminal** is based on standard ANSI features which is commonly supported on Unix terminals especially such as xterm and VT-100 compatible. This library currently only supports Linux and macOS, simply because Swift isn't officially available on Windows yet.
 
 > **UPDATE**:    
 > Latest version is v.0.0.3 at May, 26th 2019. There are a [simple demo](https://github.com/pakLebah/ansiDemo) and also a [simple game](https://github.com/pakLebah/ansiSlide) made using this library. Have fun! :)
