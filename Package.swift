@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "ANSITerminal",
+    platforms: [.macOS(.v10_14)],
     products: [
         .library(
             name: "ANSITerminal",
@@ -21,6 +22,5 @@ let package = Package(
         //     name: "ANSITerminalTests",
         //     dependencies: ["ANSITerminal"]),
     ],
-    swiftLanguageVersions: [.v5],
-    platforms: [.macOS(.v10_14)],
+    swiftLanguageVersions: [.v5]
 )
