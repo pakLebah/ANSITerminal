@@ -152,3 +152,11 @@ public func readScreenSize() -> (row: Int, col: Int) {
 
   return (Int(row)!, Int(col)!)
 }
+
+public func openAlternateScreen() {
+    write(CSI,"?1049h")
+}
+
+public func closeAlternateScreen() {
+    write(CSI,"?1049l")
+}
